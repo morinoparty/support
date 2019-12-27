@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default {
   mode: "universal",
   /*
@@ -35,7 +37,29 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ["@nuxtjs/sitemap"],
+
+  sitemap: {
+    path: "/sitemap.xml",
+    hostname: "https://support.morino.party",
+    // generate: true,
+    exclude: [""],
+    routes(callback) {
+      axios
+        .get(
+          "https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1W5zD7PO3myloJJpuy-0Ir70TnMK8afuh2nQH-7EIiS0&range=content!A2:G100"
+        )
+        .then(res => {
+          var routes = res.data.map(items => {
+            return {
+              route: "/faq/" + items.id
+            };
+          });
+          callback(null, routes);
+        })
+        .catch(callback);
+    }
+  },
   /*
    ** Build configuration
    */
@@ -44,5 +68,22 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+
+  generate: {
+    routes() {
+      // 使用するAPIから情報を取得
+      return axios
+        .get(
+          "https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1W5zD7PO3myloJJpuy-0Ir70TnMK8afuh2nQH-7EIiS0&range=content!A2:G100"
+        )
+        .then(res => {
+          return res.data.map(items => {
+            return {
+              route: "/faq/" + items.id
+            };
+          });
+        });
+    }
   }
 };

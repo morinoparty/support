@@ -1,25 +1,12 @@
 <template>
   <div>
-    <nav>
-      <ul>
-        <li class="img">
-          <nuxt-link to="/"
-            ><img
-              height="38px"
-              width="38px"
-              src="https://morino.party/assets/server-icon.png"
-          /></nuxt-link>
-        </li>
-        <li>Support</li>
-      </ul>
-    </nav>
     <header id="header">
       <div class="title">
         <h1>MorinoParty Support</h1>
         <p>よくある質問一覧です。</p>
       </div>
     </header>
-    <div class="container">
+    <div class="container grid">
       <card v-for="items of content" v-bind:key="items.id" :val="items"></card>
     </div>
   </div>
@@ -45,24 +32,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI,
     Hiragino Kaku Gothic ProN, Hiragino Sans, ヒラギノ角ゴ ProN W3, Arial,
     メイリオ, Meiryo, sans-serif;
-}
-nav {
-  position: fixed;
-  z-index: 999;
-  color: #007907;
-  ul {
-    height: 38px;
-    display: flex;
-    padding: 0;
-    li {
-      display: inline-block;
-      padding: 10px;
-      font-weight: bold;
-      &.img {
-        padding: 0;
-      }
-    }
-  }
 }
 
 header#header {
@@ -94,15 +63,19 @@ header#header {
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 50px;
-  grid-template-columns: calc(50% - 20px) calc(50% - 20px);
-  grid-gap: 30px;
-  grid-template-rows: auto;
   @media (max-width: 768px) {
-    grid-template-columns: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    grid-gap: 10px;
     padding-bottom: 50px;
+  }
+  &.grid {
+    grid-template-columns: calc(50% - 20px) calc(50% - 20px);
+    grid-gap: 30px;
+    grid-template-rows: auto;
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      grid-gap: 10px;
+    }
   }
 }
 </style>

@@ -1,21 +1,19 @@
 <template>
-  <nuxt-link :to="'/faq/' + val.id">
-    <div class="card">
-      <h1 class="ja">
-        {{ val.title_ja }}
-      </h1>
-      <h1 class="en">
-        {{ val.title_en }}
-      </h1>
-      <p class="ja">
-        {{ val.body_ja }}
-      </p>
-      <p class="en">
-        {{ val.body_en }}
-      </p>
-      <div class="badge">{{ val.category }}</div>
-    </div>
-  </nuxt-link>
+  <div class="card">
+    <h1 class="ja">
+      {{ val["質問内容(タイトル)"] }}
+    </h1>
+    <h1 class="en">
+      {{ val["質問内容(自動翻訳)"] }}
+    </h1>
+    <p class="ja">
+      {{ val["回答"] }}
+    </p>
+    <p class="en">
+      {{ val["回答(自動翻訳)"] }}
+    </p>
+    <div class="badge">{{ val["カテゴリ"] }}</div>
+  </div>
 </template>
 <script>
 export default {
@@ -23,10 +21,6 @@ export default {
 };
 </script>
 <style lang="scss">
-a {
-  text-decoration: none;
-  color: inherit;
-}
 .card {
   position: relative;
   border-radius: 15px;
