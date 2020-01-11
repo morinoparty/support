@@ -2,7 +2,7 @@
   <div>
     <mainheader :text="'ショップ一覧です！<br>サイト内検索をうまく活用して使ってください！<br>現在のショップ数：'+ content.length"></mainheader>
     <div class="container grid">
-      <p v-if="loading == true">loading...</p>
+      <p class="loading" v-if="loading == true">ショップを数えています...</p>
       <div
         class="card-shop"
         :class="'type-' + items.type"
@@ -50,6 +50,10 @@
   </div>
 </template>
 <style lang="scss">
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+}
 .card-shop {
   position: relative;
   border-radius: 15px;
@@ -129,17 +133,19 @@ export default {
       title: "ショップ一覧 | もりのパーティ サポート"
     };
   },
-  asyncData({ params, error }) {
-    return axios
-      .get(
-        `https://limitless-mountain-11776.herokuapp.com/api/shops?_order[itemConfig]=asc&_order[price]=asc&_order[x]=asc&`
-      )
-      .then(res => {
-        return {
-          content: res.data.json,
-          loading: false
-        };
-      });
+  methods: {
+    fetchcontent() {
+      axios
+        .get(
+          `https://limitless-mountain-11776.herokuapp.com/api/shops?_order[itemConfig]=asc&_order[price]=asc&_order[x]=asc&`
+        )
+        .then(res => {
+          (this.content = res.data.json), (this.loading = false);
+        });
+    }
+  },
+  mounted() {
+    this.fetchcontent();
   }
 };
 </script>
