@@ -132,7 +132,7 @@ export default {
   asyncData({ params, error }) {
     return axios
       .get(
-        `http://dev1.srv.morino.party:8000/api/shops?_order[itemConfig]=asc&_order[price]=asc&_order[x]=asc&`
+        `https://limitless-mountain-11776.herokuapp.com/api/shops?_order[itemConfig]=asc&_order[price]=asc&_order[x]=asc&`
       )
       .then(res => {
         return {
