@@ -82,7 +82,7 @@ export default {
   .en {
     letter-spacing: 0.01em;
     opacity: 0.3;
-    font-size: 0.7rem;
+    font-size: 1rem;
     line-height: 1.5;
   }
 

@@ -1,31 +1,32 @@
 <template>
-  <nuxt-link :to="'/faq/' + val.id">
-    <div class="card">
-      <h1 class="ja">
-        {{ val.title_ja }}
-      </h1>
-      <h1 class="en">
-        {{ val.title_en }}
-      </h1>
-      <p class="ja">
-        {{ val.body_ja }}
-      </p>
-      <p class="en">
-        {{ val.body_en }}
-      </p>
+  <div class="card">
+    <h1 class="ja">
+      {{ val.titleJa }}
+    </h1>
+    <h1 class="en">
+      {{ val.titleEn }}
+    </h1>
+    <p class="ja">
+      {{ val.bodyJa }}
+    </p>
+    <p class="en" v-if="en">
+      {{ val.bodyEn }}
+    </p>
+    <nuxt-link :to="'/faq/category/' + val.categoryId">
       <div class="badge">{{ val.category }}</div>
-    </div>
-  </nuxt-link>
+    </nuxt-link>
+  </div>
 </template>
 <script>
 export default {
-  props: ["val"]
+  props: ["val", "en"]
 };
 </script>
 <style lang="scss">
 a {
   text-decoration: none;
   color: inherit;
+  height: fit-content;
 }
 .card {
   position: relative;
@@ -88,7 +89,7 @@ a {
   .en {
     letter-spacing: 0.01em;
     opacity: 0.3;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     line-height: 1.5;
   }
 

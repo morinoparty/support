@@ -1,7 +1,8 @@
 import axios from "axios";
+const cheerio = require("cheerio");
 
 export default {
-  mode: "universal",
+  mode: "spa",
   /*
    ** Headers of the page
    */
@@ -47,10 +48,10 @@ export default {
     routes(callback) {
       axios
         .get(
-          "https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1W5zD7PO3myloJJpuy-0Ir70TnMK8afuh2nQH-7EIiS0&range=content!A2:G100"
+          "https://v2-api.sheety.co/a29c53938fe2070f5a71a8d9494eed15/morinoPartySupport/content"
         )
         .then(res => {
-          var routes = res.data.map(items => {
+          var routes = res.data.content.map(items => {
             return {
               route: "/faq/" + items.id
             };
@@ -58,6 +59,14 @@ export default {
           callback(null, routes);
         })
         .catch(callback);
+    }
+  },
+
+  hooks: {
+    "generate:page": page => {
+      const doc = cheerio.load(page.html);
+      doc(`body script`).remove();
+      page.html = doc.html();
     }
   },
   /*
@@ -71,19 +80,6 @@ export default {
   },
 
   generate: {
-    routes() {
-      // 使用するAPIから情報を取得
-      return axios
-        .get(
-          "https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1W5zD7PO3myloJJpuy-0Ir70TnMK8afuh2nQH-7EIiS0&range=content!A2:G100"
-        )
-        .then(res => {
-          return res.data.map(items => {
-            return {
-              route: "/faq/" + items.id
-            };
-          });
-        });
-    }
+    fallback: true
   }
 };

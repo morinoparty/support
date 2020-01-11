@@ -3,12 +3,12 @@
     <nav>
       <ul>
         <li class="left">
-          <nuxt-link to="/"
+          <a href="/"
             ><img
               height="38px"
               width="38px"
               src="https://morino.party/assets/server-icon.png"
-          /></nuxt-link>
+          /></a>
           <h1>Support</h1>
         </li>
         <li class="right">
@@ -73,6 +73,58 @@ nav {
           }
         }
       }
+    }
+  }
+}
+</style>
+<style lang="scss">
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Segoe UI,
+    Hiragino Kaku Gothic ProN, Hiragino Sans, ヒラギノ角ゴ ProN W3, Arial,
+    メイリオ, Meiryo, sans-serif;
+}
+
+header#header {
+  position: relative;
+  text-align: left;
+  height: 300px;
+  color: #007907;
+  background: rgba(0, 121, 7, 0.03);
+  margin-bottom: 30px;
+  .title {
+    max-width: 1000px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    padding-right: 20px;
+    padding-left: 20px;
+    p {
+      padding-top: 10px;
+    }
+  }
+}
+.container {
+  max-width: 1000px;
+  display: grid;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 50px;
+  @media (max-width: 768px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 50px;
+  }
+  &.grid {
+    grid-template-columns: calc(50% - 15px) calc(50% - 15px);
+    grid-gap: 30px;
+    grid-template-rows: auto;
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      grid-gap: 10px;
     }
   }
 }
