@@ -1,5 +1,4 @@
 import axios from "axios";
-const cheerio = require("cheerio");
 
 export default {
   mode: "spa",
@@ -62,13 +61,6 @@ export default {
     }
   },
 
-  hooks: {
-    "generate:page": page => {
-      const doc = cheerio.load(page.html);
-      doc(`body script`).remove();
-      page.html = doc.html();
-    }
-  },
   /*
    ** Build configuration
    */

@@ -6,8 +6,8 @@
       <div
         class="card-shop"
         :class="'type-' + items.type"
-        v-for="items of content"
-        v-bind:key="items.price"
+        v-for="(items,index) of content"
+        v-bind:key="index"
       >
         <div>
           <img
