@@ -1,8 +1,14 @@
 <template>
   <div>
     <mainheader :text="'ショップ一覧です！<br>サイト内検索をうまく活用して使ってください！<br>現在のショップ数：'+ content.length"></mainheader>
-    <div class="container grid">
-      <p class="loading" v-if="loading == true">ショップを数えています...</p>
+    <div class="loading" v-if="loading == true">
+      <div>
+        <span>🤔</span>
+        <br />ショップを数えています!
+        <br />この処理には少し時間がかかります...
+      </div>
+    </div>
+    <div class="container grid" v-if="loading == false">
       <div
         class="card-shop"
         :class="'type-' + items.type"
@@ -53,6 +59,17 @@
 .loading {
   text-align: center;
   font-size: 1.5rem;
+  height: calc(100vh - 300px);
+  color: white;
+  background: #0079068a;
+  font-feature-settings: "palt" 1;
+  letter-spacing: 0.15em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: 4rem;
+  }
 }
 .card-shop {
   position: relative;
@@ -66,6 +83,7 @@
   display: grid;
   grid-template-columns: 50px 1fr;
   grid-gap: 30px;
+  word-break: break-all;
   &.type-1 {
     border: 1px solid rgba(0, 0, 0, 0);
     box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);

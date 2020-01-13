@@ -3,12 +3,9 @@
     <nav>
       <ul>
         <li class="left">
-          <a href="/"
-            ><img
-              height="38px"
-              width="38px"
-              src="https://morino.party/assets/server-icon.png"
-          /></a>
+          <a href="/">
+            <img height="38px" width="38px" src="https://morino.party/assets/server-icon.png" />
+          </a>
           <h1>Support</h1>
         </li>
         <li class="right">
@@ -90,7 +87,6 @@ header#header {
   height: 300px;
   color: #007907;
   background: rgba(0, 121, 7, 0.03);
-  margin-bottom: 30px;
   .title {
     max-width: 1000px;
     width: 100%;
@@ -110,6 +106,7 @@ header#header {
   display: grid;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 30px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 50px;
