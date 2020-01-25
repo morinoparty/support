@@ -8,6 +8,8 @@
       <nuxt-link to="/faq">FAQ</nuxt-link>
       <br />
       <nuxt-link to="/shops">ショップ一覧</nuxt-link>
+      <br />
+      <nuxt-link to="/team">運営チーム</nuxt-link>
     </div>
   </div>
 </template>
