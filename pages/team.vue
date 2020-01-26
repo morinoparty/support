@@ -3,7 +3,12 @@
     <mainheader :text="'もりのパーティは、複数の住人の協力によって成り立っています！そんな中で協力していただいているみなさんをご紹介します！'"></mainheader>
     <div class="container small">
       <div v-for="(group,index) in perm_groups" v-bind:key="index">
-        <teamcard :group="group.group" :name="group.name" :description="group.description"></teamcard>
+        <teamcard
+          :group="group.group"
+          :name="group.name"
+          :description="group.description"
+          :prefix="group.prefix"
+        ></teamcard>
       </div>
     </div>
   </div>
@@ -50,8 +55,8 @@
   margin-bottom: 20px;
   background-color: #fff;
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-  width: calc(100% + 30px);
-  transform: translateX(-15px);
+  width: calc(100% + 20px);
+  transform: translateX(-10px);
   .d-flex {
     display: flex !important;
   }
@@ -89,29 +94,33 @@ export default {
         {
           group: "owner",
           name: "管理人",
-          description: "管理人は、サーバーの維持・管理をする物好きな人です！"
+          description: "管理人は、サーバーの維持・管理をする物好きな人です！",
+          prefix: "♚"
         },
         {
           group: "dep",
           name: "副管理人",
           description:
-            "サーバーの負荷対策・様々な管理面まで細やかな仕事ぶりで有名です"
+            "サーバーの負荷対策・様々な管理面まで細やかな仕事ぶりで有名です！",
+          prefix: "♛"
         },
         {
           group: "dev",
           name: "開発者",
-          description: "サーバーのプラグイン/技術面のサポートを行います"
+          description: "サーバーのプラグイン/技術面のサポートを行います！"
         },
         {
           group: "event",
           name: "イベント担当",
-          description: "サーバー内のイベントの企画・設営を行います。"
+          description: "サーバー内のイベントの企画・設営を行います！",
+          prefix: "♞"
         },
         {
           group: "mlit",
           name: "国土交通省",
           description:
-            "ユーザーの行き来の効率化のため、道路開発を主に行います。"
+            "ユーザーの行き来の効率化のため、道路開発を主に行います！",
+          prefix: "♜"
         }
       ]
     };

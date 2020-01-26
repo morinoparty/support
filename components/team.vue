@@ -1,6 +1,9 @@
 <template>
   <div class="group">
-    <h2>{{name}}</h2>
+    <h2>
+      <span>{{prefix}}</span>
+      {{name}}
+    </h2>
     <p>{{description}}</p>
     <div class="mcuser" v-for="(user, index) in content.users" v-bind:key="index">
       <div class="d-flex">
@@ -15,7 +18,7 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["group", "name", "description"],
+  props: ["group", "name", "description", "prefix"],
   data() {
     return {
       content: {},

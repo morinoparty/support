@@ -3,9 +3,9 @@
     <nav>
       <ul>
         <li class="left">
-          <a href="/">
+          <nuxt-link to="/">
             <img height="38px" width="38px" src="https://morino.party/assets/server-icon.png" />
-          </a>
+          </nuxt-link>
           <h1>Support</h1>
         </li>
         <li class="right">
