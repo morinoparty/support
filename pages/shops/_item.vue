@@ -18,7 +18,7 @@
             <input type="search" v-model="search" />
             <button type="submit">🔍</button>
           </div>
-          <nuxt-link v-for="(items,index) of keywords" v-bind:key="index" :to="items.id">
+          <nuxt-link v-for="(items,index) of keywords" v-bind:key="index" :to="'/shops/'+items.id">
             <span class="tag">{{items.name}}</span>
           </nuxt-link>
         </form>
