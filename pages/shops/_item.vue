@@ -1,11 +1,22 @@
 <template>
   <div>
-    <mainheader :text="'ショップ一覧です！<br>サイト内検索をうまく活用して使ってください！<br>現在のショップ数：'+ content.length"></mainheader>
+    <mainheader :text="'ショップ一覧です！<br>サイト内検索をうまく活用して使ってください！<br>該当数：'+ content.length"></mainheader>
     <div class="loading" v-if="loading == true">
       <div>
         <span>🤔</span>
         <br />ショップを数えています!
         <br />この処理には少し時間がかかります...
+      </div>
+    </div>
+    <div class="container src" v-if="loading == false">
+      <div class="search_box">
+        <form :action="'/shops/'+search">
+          <h2>検索</h2>
+          <div class="search">
+            <input type="search" v-model="search" />
+            <button type="submit">🔍</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="container grid" v-if="loading == false">
@@ -16,19 +27,16 @@
         v-bind:key="index"
       >
         <div>
-          <img
-            class="icon"
-            :src="'https://crafatar.com/avatars/' + JSON.parse(items.owner).owner + '/?overlay'"
-          />
+          <img class="icon" :src="'https://crafatar.com/avatars/' + items.uuid + '/?overlay'" />
           <p class="tag" :class="'type-' + items.type" v-if="items.type === 1">買取</p>
           <p class="tag" :class="'type-' + items.type" v-if="items.type === 0">販売</p>
 
-          <p class="unlimited" v-if="items.unlimited === 1">アドミンショップ</p>
+          <p class="unlimited" v-if="items.admin === 1">アドミンショップ</p>
         </div>
         <div class="description">
           <p>
             <span>商品：</span>
-            {{ items.itemConfig.split('\n ')[3].replace('type: ', '') }}
+            {{ items.item }}
           </p>
           <p class="yen">
             <span>価格：</span>
@@ -69,6 +77,43 @@
   align-items: center;
   span {
     font-size: 4rem;
+  }
+}
+form h2 {
+  margin-bottom: 1.5rem;
+}
+.container.src {
+  max-width: 500px;
+}
+.search {
+  position: relative;
+  box-sizing: border-box;
+  border: 2px solid #007907;
+  padding: 3px 5px;
+  border-radius: 20px;
+  height: 2.2em;
+  width: 100%;
+  overflow: hidden;
+  input {
+    width: calc(100% - 50px);
+    border: none;
+    height: 1.8em;
+  }
+  input:focus {
+    outline: 0;
+  }
+  button {
+    cursor: pointer;
+    font-family: FontAwesome;
+    border: none;
+    background: rgba(0, 121, 7, 0.3);
+    color: #fff;
+    position: absolute;
+    width: 3.5em;
+    height: 3em;
+    right: 0px;
+    top: -5px;
+    outline: none;
   }
 }
 .card-shop {
@@ -143,7 +188,8 @@ export default {
   data() {
     return {
       content: {},
-      loading: true
+      loading: true,
+      search: ""
     };
   },
   head() {
@@ -153,13 +199,20 @@ export default {
   },
   methods: {
     fetchcontent() {
-      axios
-        .get(
-          `https://limitless-mountain-11776.herokuapp.com/api/shops?_order[itemConfig]=asc&_order[price]=asc&_order[x]=asc&`
-        )
-        .then(res => {
+      if (this.$nuxt.$route.params.item) {
+        axios
+          .get(
+            `https://api.morino.party/shops/item/` +
+              this.$nuxt.$route.params.item
+          )
+          .then(res => {
+            (this.content = res.data.json), (this.loading = false);
+          });
+      } else {
+        axios.get(`https://api.morino.party/shops`).then(res => {
           (this.content = res.data.json), (this.loading = false);
         });
+      }
     }
   },
   mounted() {
