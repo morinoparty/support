@@ -12,10 +12,15 @@
       <div class="search_box">
         <form :action="'/shops/'+search">
           <h2>検索</h2>
+          <p>アイテム名を入力してください。(英語表記のみ)</p>
+
           <div class="search">
             <input type="search" v-model="search" />
             <button type="submit">🔍</button>
           </div>
+          <nuxt-link v-for="(items,index) of keywords" v-bind:key="index" :to="items.id">
+            <span class="tag">{{items.name}}</span>
+          </nuxt-link>
         </form>
       </div>
     </div>
@@ -79,41 +84,60 @@
     font-size: 4rem;
   }
 }
-form h2 {
-  margin-bottom: 1.5rem;
+form p {
+  margin-bottom: 1rem;
 }
 .container.src {
-  max-width: 500px;
-}
-.search {
-  position: relative;
-  box-sizing: border-box;
-  border: 2px solid #007907;
-  padding: 3px 5px;
-  border-radius: 20px;
-  height: 2.2em;
-  width: 100%;
-  overflow: hidden;
-  input {
-    width: calc(100% - 50px);
-    border: none;
-    height: 1.8em;
+  margin-right: auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: #007907;
+  .search_box {
+    max-width: 500px;
   }
-  input:focus {
-    outline: 0;
+  .search {
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #007907;
+    padding: 3px 5px;
+    margin-bottom: 1rem;
+    border-radius: 20px;
+    height: 2.2em;
+    width: 100%;
+    overflow: hidden;
+    input {
+      padding-left: 10px;
+      width: calc(100% - 50px);
+      border: none;
+      height: 1.8em;
+    }
+    input:focus {
+      outline: 0;
+    }
+    button {
+      cursor: pointer;
+      font-family: FontAwesome;
+      border: none;
+      background: rgba(0, 121, 7, 0.3);
+      color: #fff;
+      position: absolute;
+      width: 3.5em;
+      height: 3em;
+      right: 0px;
+      top: -5px;
+      outline: none;
+    }
   }
-  button {
-    cursor: pointer;
-    font-family: FontAwesome;
-    border: none;
-    background: rgba(0, 121, 7, 0.3);
-    color: #fff;
-    position: absolute;
-    width: 3.5em;
-    height: 3em;
-    right: 0px;
-    top: -5px;
-    outline: none;
+  span.tag {
+    border: rgba(0, 121, 6, 0.1) solid 1px;
+    display: inline-block;
+    padding: 0px 10px;
+    background: rgba(0, 121, 7, 0.03);
+    margin: 3px;
+    word-break: break-word;
+    line-height: 2;
+    font-size: 0.8rem;
+    border-radius: 20px;
   }
 }
 .card-shop {
@@ -189,7 +213,41 @@ export default {
     return {
       content: {},
       loading: true,
-      search: ""
+      search: "",
+      keywords: [
+        {
+          name: "原木",
+          id: "LOG"
+        },
+        {
+          name: "木材",
+          id: "PLANKS"
+        },
+        {
+          name: "ダイヤモンド",
+          id: "DIAMOND"
+        },
+        {
+          name: "エリトラ",
+          id: "ELYTRA"
+        },
+        {
+          name: "エンチャントされた本",
+          id: "ENCHANTED_BOOK"
+        },
+        {
+          name: "はちみつとか",
+          id: "HONEY"
+        },
+        {
+          name: "シュルカーボックス",
+          id: "SHULKER_BOX"
+        },
+        {
+          name: "羊毛",
+          id: "WOOL"
+        }
+      ]
     };
   },
   head() {
