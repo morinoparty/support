@@ -187,7 +187,7 @@ export default {
   methods: {
     fetchcontent() {
       axios
-        .get(`https://api.morino.party/auctions/` + this.$nuxt.$route.params.id)
+        .get(`https://api.morino.party/auctions/content/` + this.$nuxt.$route.params.id)
         .then(res => {
           this.content = res.data;
           this.loading = false;
