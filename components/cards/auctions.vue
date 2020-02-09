@@ -1,18 +1,31 @@
 <template>
-  <nuxt-link :to="'/auctions/'+item.id" class="card-auction">
+  <nuxt-link :to="'/auctions/' + item.id" class="card-auction">
     <div class="data top">
-      <p class="left">#{{item.id}}</p>
-      <p class="right price">{{item.now}}円</p>
+      <p class="left">#{{ item.id }}</p>
+      <p
+        class="right price"
+        v-for="(highest, index) in highest"
+        v-bind:key="index"
+      >
+        {{ highest.amount }}円
+      </p>
     </div>
-    <div class="image" :style="'background-image: url(' +  item.thumbnail + ')'"></div>
+    <div
+      class="image"
+      :style="'background-image: url(' + item.thumbnail + ')'"
+    ></div>
     <div class="info">
-      <h1>{{item.title}}</h1>
-      <p>{{item.description}}</p>
+      <h1>{{ item.title }}</h1>
+      <p>{{ item.description }}</p>
     </div>
     <div class="data bottom">
-      <p class="left">{{item.time_limit}}</p>
+      <p class="left">
+        {{ time_limit_computed }}
+      </p>
 
-      <p class="right" v-for="(count, index) in content" v-bind:key="index">{{count.count}}件入札</p>
+      <p class="right" v-for="(count, index) in content" v-bind:key="index">
+        {{ count.count }}件入札
+      </p>
     </div>
   </nuxt-link>
 </template>
@@ -78,13 +91,21 @@
 }
 </style>
 <script>
+import dayjs from "dayjs";
 import axios from "axios";
 export default {
   props: ["item"],
   data() {
     return {
-      content: []
+      content: [],
+      highest: [],
+      time: ""
     };
+  },
+  computed: {
+    time_limit_computed: function() {
+      return dayjs(this.item.time_limit).format("M月D日 HH:mmまで");
+    }
   },
   methods: {
     fetchcontent() {
@@ -95,10 +116,19 @@ export default {
           this.loading = false;
           console.log(res.data);
         });
+    },
+    fetchhighest() {
+      axios
+        .get(`https://api.morino.party/auctions/highest/` + this.item.id)
+        .then(res => {
+          this.highest = res.data;
+          console.log(res.data);
+        });
     }
   },
   mounted() {
     this.fetchcontent();
+    this.fetchhighest();
   }
 };
 </script>
