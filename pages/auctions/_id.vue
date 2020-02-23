@@ -2,10 +2,7 @@
   <div>
     <div v-for="(item, index) in content" v-bind:key="index">
       <header class="auction" id="header">
-        <div
-          class="image"
-          :style="'background-image: url(' + item.thumbnail + ')'"
-        ></div>
+        <div class="image" :style="'background-image: url(' + item.thumbnail + ')'"></div>
         <div class="background"></div>
         <div class="title">
           <h1>オークション</h1>
@@ -19,23 +16,25 @@
           <p>{{ item.description }}</p>
 
           <figure class="alert">
-            <strong>入札するには？？</strong><br />
-            <code>/auction {{ item.id }} 金額</code
-            >このコマンドをもりのパーティの中で行ってみましょう!
+            <strong>入札するには？？</strong>
+            <br />
+            <code>/auction bid {{ item.id }} 金額</code>このコマンドをもりのパーティの中で行ってみましょう!
           </figure>
         </div>
         <aside>
           <ul>
             <li>
               <h3>現在の入札数</h3>
-              <p v-for="(item, index) in count" v-bind:key="index">
-                {{ item.count }}件
-              </p>
+              <p v-for="(item, index) in count" v-bind:key="index">{{ item.count }}件</p>
             </li>
             <div v-for="(item, index) in highest" v-bind:key="index">
               <li>
                 <h3>現在の金額</h3>
                 <p>{{ item.amount }}円</p>
+              </li>
+              <li>
+                <h3>最新入札時間</h3>
+                <p>{{ time_now_bid }}</p>
               </li>
               <li>
                 <h3>現在の最高入札者</h3>
@@ -123,10 +122,13 @@ header.auction {
       padding: 5px;
       display: inline-block;
       background-color: white;
+      font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+        Noto Sans JP, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI;
       border-radius: 5px;
       margin-right: 10px;
       margin-top: 10px;
-      font-size: 1.3rem;
+      font-size: 1rem;
     }
   }
 }
@@ -176,6 +178,7 @@ export default {
       highest: {},
       time_start_computed: "",
       time_limit_computed: "",
+      time_now_bid: "",
       loading: true
     };
   },
@@ -187,7 +190,10 @@ export default {
   methods: {
     fetchcontent() {
       axios
-        .get(`https://api.morino.party/auctions/content/` + this.$nuxt.$route.params.id)
+        .get(
+          `https://api.morino.party/auctions/content/` +
+            this.$nuxt.$route.params.id
+        )
         .then(res => {
           this.content = res.data;
           this.loading = false;
@@ -220,6 +226,9 @@ export default {
         )
         .then(res => {
           this.highest = res.data;
+          this.time_now_bid = dayjs(res.data[0].created_time).format(
+            "M月D日 HH:mm"
+          );
           console.log(res.data);
         });
     }
