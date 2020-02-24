@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="'/auctions/' + item.id" class="card-auction">
+  <nuxt-link :to="'/auctions/' + item.id" :class="'card-auction '+type">
     <div class="data top">
       <p class="left">#{{ item.id }}</p>
       <p
@@ -14,9 +14,8 @@
       <p>{{ item.description.slice(0,70)+"..." }}</p>
     </div>
     <div class="data bottom">
-      <p class="left">{{ time_limit_computed }}</p>
-
-      <p class="right" v-for="(count, index) in content" v-bind:key="index">{{ count.count }}件入札</p>
+      <p class="left" v-if="type == 'coming'">{{ time_limit_computed }}</p>
+      <p class="left" v-else>{{ time_limit_computed }}</p>
     </div>
   </nuxt-link>
 </template>
@@ -27,11 +26,25 @@
   border: 1px solid #dddddd;
   border-radius: 20px;
   text-decoration: none;
+  height: fit-content;
+  &.coming {
+    .info h1 {
+      color: #d46c00;
+    }
+    .data {
+      &.bottom {
+        background-color: rgba(255, 201, 49, 0.15);
+      }
+      .left {
+        background-color: #e87600;
+      }
+    }
+  }
 
   .image {
     overflow: hidden;
     z-index: 0;
-    height: 200px;
+    height: 250px;
     background-size: cover;
     background-position: center;
   }
@@ -39,11 +52,11 @@
     padding: 15px;
     h1 {
       color: #007907;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
     }
     p {
-      color: #848484;
+      color: #949494;
       font-size: 0.8rem;
     }
   }
@@ -87,7 +100,7 @@
 import dayjs from "dayjs";
 import axios from "axios";
 export default {
-  props: ["item"],
+  props: ["item", "type"],
   data() {
     return {
       content: [],
@@ -98,18 +111,12 @@ export default {
   computed: {
     time_limit_computed: function() {
       return dayjs(this.item.time_limit).format("M月D日 HH:mmまで");
+    },
+    time_limit_computed: function() {
+      return dayjs(this.item.time_start).format("M月D日 HH:mmから開始");
     }
   },
   methods: {
-    fetchcontent() {
-      axios
-        .get(`https://api.morino.party/auctions/count/` + this.item.id)
-        .then(res => {
-          this.content = res.data;
-          this.loading = false;
-          console.log(res.data);
-        });
-    },
     fetchhighest() {
       axios
         .get(`https://api.morino.party/auctions/highest/` + this.item.id)
@@ -120,7 +127,6 @@ export default {
     }
   },
   mounted() {
-    this.fetchcontent();
     this.fetchhighest();
   }
 };

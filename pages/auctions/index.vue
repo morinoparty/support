@@ -7,12 +7,40 @@
         <br />現在開催中のオークションはありません...!
       </div>
     </div>
-    <div class="container grid" v-else>
-      <card v-for="(item, index) in content" v-bind:key="index" :item="item" />
+    <div v-else>
+      <div class="container no-padding card">
+        <h2>現在開催中のオークション</h2>
+      </div>
+      <div class="container grid card">
+        <card v-for="(item, index) in content" v-bind:key="index" :item="item" />
+      </div>
+      <div class="container no-padding card">
+        <h2 class="orange">開催予定のオークション</h2>
+      </div>
+      <div class="container grid card">
+        <card v-for="(item, index) in coming" v-bind:key="index" :item="item" :type="'coming'" />
+      </div>
     </div>
   </div>
 </template>
 <style lang="scss">
+.container.no-padding {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  h2 {
+    color: #007907;
+  }
+  h2.orange {
+    color: #d46c00;
+  }
+}
+.container.card {
+  max-width: 1200px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 50px;
+}
 .loading {
   text-align: center;
   font-size: 1.5rem;
@@ -41,6 +69,7 @@ export default {
   data() {
     return {
       content: {},
+      coming: {},
       loading: true
     };
   },
@@ -56,10 +85,17 @@ export default {
         this.loading = false;
         console.log(res.data);
       });
+    },
+    fetchcomingcontent() {
+      axios.get(`https://api.morino.party/auctions/coming`).then(res => {
+        this.coming = res.data;
+        console.log(res.data);
+      });
     }
   },
   mounted() {
     this.fetchcontent();
+    this.fetchcomingcontent();
   }
 };
 </script>
