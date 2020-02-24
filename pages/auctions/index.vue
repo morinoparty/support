@@ -8,16 +8,16 @@
       </div>
     </div>
     <div v-else>
-      <div class="container no-padding card">
+      <div class="container no-padding auction-list">
         <h2>現在開催中のオークション</h2>
       </div>
-      <div class="container grid card">
+      <div class="container grid auction-list">
         <card v-for="(item, index) in content" v-bind:key="index" :item="item" />
       </div>
-      <div class="container no-padding card">
+      <div class="container no-padding auction-list">
         <h2 class="orange">開催予定のオークション</h2>
       </div>
-      <div class="container grid card">
+      <div class="container grid auction-list">
         <card v-for="(item, index) in coming" v-bind:key="index" :item="item" :type="'coming'" />
       </div>
     </div>
@@ -36,7 +36,7 @@
     color: #d46c00;
   }
 }
-.container.card {
+.container.auction-list {
   max-width: 1200px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 50px;

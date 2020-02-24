@@ -14,6 +14,8 @@
           <img :src="item.thumbnail" class="thumb" />
           <h1>{{ item.title }}</h1>
           <p v-html="item.description"></p>
+          <small>※もりもとにチェストが集中してしまいますと、負荷等の観点から問題になりますので、倉庫などへの利用はお控えいただきますと幸いです。</small>
+
           <figure class="alert">
             <h2>座標</h2>
             <div class="position">
@@ -42,10 +44,6 @@
               <h3>現在の入札数</h3>
               <p v-for="(item, index) in count" v-bind:key="index">{{ item.count }}件</p>
             </li>
-            <li>
-              <h3>開始価格</h3>
-              <p>{{ item.now }}円</p>
-            </li>
             <div v-for="(item, index) in highest" v-bind:key="index">
               <li>
                 <h3>現在の金額</h3>
@@ -70,6 +68,11 @@
                 </div>
               </li>
             </div>
+
+            <li>
+              <h3>開始価格</h3>
+              <p>{{ item.now }}円</p>
+            </li>
             <li>
               <h3>期間</h3>
               <p>開始：{{ time_start_computed }}</p>
@@ -127,6 +130,11 @@ header.auction {
   }
 }
 .body {
+  p {
+    line-height: 2;
+    font-feature-settings: "palt" 1;
+    letter-spacing: 0.05em;
+  }
   img.thumb {
     width: 100%;
     height: 300px;
@@ -138,6 +146,13 @@ header.auction {
   }
   h1 {
     margin-bottom: 1rem;
+  }
+  small {
+    display: inline-block;
+    opacity: 0.7;
+    line-height: 2;
+    padding-top: 20px;
+    padding-left: 20px;
   }
   figure.alert {
     padding: 20px;
