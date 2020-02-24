@@ -1,14 +1,14 @@
 <template>
   <div>
     <mainheader :text="'現在開催中のオークションをチェックできます'"></mainheader>
-    <div class="container grid" v-if="content">
-      <card v-for="(item, index) in content" v-bind:key="index" :item="item" />
-    </div>
-    <div class="loading" v-else>
+    <div class="loading" v-if="this.content.length == 0">
       <div>
         <span>🤔</span>
         <br />現在開催中のオークションはありません...!
       </div>
+    </div>
+    <div class="container grid" v-else>
+      <card v-for="(item, index) in content" v-bind:key="index" :item="item" />
     </div>
   </div>
 </template>

@@ -6,26 +6,17 @@
         class="right price"
         v-for="(highest, index) in highest"
         v-bind:key="index"
-      >
-        {{ highest.amount }}円
-      </p>
+      >{{ highest.amount }}円</p>
     </div>
-    <div
-      class="image"
-      :style="'background-image: url(' + item.thumbnail + ')'"
-    ></div>
+    <div class="image" :style="'background-image: url(' + item.thumbnail + ')'"></div>
     <div class="info">
       <h1>{{ item.title }}</h1>
-      <p>{{ item.description }}</p>
+      <p>{{ item.description.slice(0,70)+"..." }}</p>
     </div>
     <div class="data bottom">
-      <p class="left">
-        {{ time_limit_computed }}
-      </p>
+      <p class="left">{{ time_limit_computed }}</p>
 
-      <p class="right" v-for="(count, index) in content" v-bind:key="index">
-        {{ count.count }}件入札
-      </p>
+      <p class="right" v-for="(count, index) in content" v-bind:key="index">{{ count.count }}件入札</p>
     </div>
   </nuxt-link>
 </template>
@@ -49,9 +40,11 @@
     h1 {
       color: #007907;
       font-size: 1.5rem;
+      margin-bottom: 1rem;
     }
     p {
       color: #848484;
+      font-size: 0.8rem;
     }
   }
   .data {

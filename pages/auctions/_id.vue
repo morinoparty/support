@@ -13,12 +13,27 @@
         <div class="body">
           <img :src="item.thumbnail" class="thumb" />
           <h1>{{ item.title }}</h1>
-          <p>{{ item.description }}</p>
-
+          <p v-html="item.description"></p>
           <figure class="alert">
-            <strong>入札するには？？</strong>
-            <br />
+            <h2>座標</h2>
+            <div class="position">
+              <span>X:</span>
+              {{item.position_x}}
+            </div>
+            <div class="position">
+              <span>Y:</span>
+              {{item.position_y}}
+            </div>
+            <div class="position">
+              <span>Z:</span>
+              {{item.position_z}}
+            </div>
+          </figure>
+          <figure class="alert">
+            <h2>入札するには？？</h2>
             <code>/auction bid {{ item.id }} 金額</code>このコマンドをもりのパーティの中で行ってみましょう!
+            <br />
+            <small>※入札するには、入札する金額を持っていることが必要です</small>
           </figure>
         </div>
         <aside>
@@ -26,6 +41,10 @@
             <li>
               <h3>現在の入札数</h3>
               <p v-for="(item, index) in count" v-bind:key="index">{{ item.count }}件</p>
+            </li>
+            <li>
+              <h3>開始価格</h3>
+              <p>{{ item.now }}円</p>
             </li>
             <div v-for="(item, index) in highest" v-bind:key="index">
               <li>
@@ -74,13 +93,24 @@ header.auction {
     background-size: cover;
     background-position: center;
   }
+  .title {
+    color: white;
+    text-align: center;
+    text-shadow: 0px 3px 5px black;
+    h1 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
   .background {
     z-index: 1;
     height: 300px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.6);
     position: absolute;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
   }
   .title,
   .background {
@@ -114,7 +144,7 @@ header.auction {
     margin-top: 3rem;
     background: rgba(0, 121, 7, 0.1);
     border-radius: 10px;
-    strong {
+    h2 {
       color: #007907;
       font-size: 1.3rem;
     }
@@ -129,6 +159,23 @@ header.auction {
       margin-right: 10px;
       margin-top: 10px;
       font-size: 1rem;
+    }
+    .position {
+      display: inline-block;
+      width: 32%;
+      text-align: center;
+      padding-right: 5px;
+      span {
+        font-weight: bold;
+        color: #007907;
+        padding-right: 5px;
+        font-size: 1.2rem;
+      }
+    }
+    small {
+      display: block;
+      margin-top: 10px;
+      opacity: 0.7;
     }
   }
 }
@@ -179,12 +226,54 @@ export default {
       time_start_computed: "",
       time_limit_computed: "",
       time_now_bid: "",
+      title: "",
       loading: true
     };
   },
   head() {
     return {
-      title: "オークション | もりのパーティ サポート"
+      title: this.title + " | もりのパーティ サポート",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.description
+        },
+        {
+          property: "og:title",
+          content: this.title
+        },
+        {
+          property: "og:description",
+          content: this.description
+        },
+        {
+          property: "og:type",
+          content: "article"
+        },
+        {
+          property: "og:site_name",
+          content: "もりのパーティ! オークション"
+        },
+        {
+          property: "og:url",
+          content:
+            "https://support.morino.party/auctions/" +
+            this.$nuxt.$route.params.id
+        },
+        {
+          property: "og:image",
+          content: this.thumbnail
+        },
+        {
+          name: "twitter:card",
+          content: "summary_large_image"
+        },
+        {
+          name: "twitter:site",
+          content: "morinoparty"
+        }
+      ]
     };
   },
   methods: {
@@ -196,6 +285,9 @@ export default {
         )
         .then(res => {
           this.content = res.data;
+          this.title = res.data[0].title;
+          this.description = res.data[0].description;
+          this.thumbnail = res.data[0].thumbnail;
           this.loading = false;
 
           this.time_start_computed = dayjs(res.data[0].time_start).format(
@@ -205,6 +297,9 @@ export default {
             "M月D日 HH:mmまで"
           );
           console.log(res.data);
+        })
+        .catch(e => {
+          error({ statusCode: 404, message: "ページが見つかりません" });
         });
     },
     fetchcount() {
@@ -216,6 +311,9 @@ export default {
         .then(res => {
           this.count = res.data;
           console.log(res.data);
+        })
+        .catch(e => {
+          error({ statusCode: 404, message: "ページが見つかりません" });
         });
     },
     fetchhighest() {
@@ -230,6 +328,9 @@ export default {
             "M月D日 HH:mm"
           );
           console.log(res.data);
+        })
+        .catch(e => {
+          error({ statusCode: 404, message: "ページが見つかりません" });
         });
     }
   },
