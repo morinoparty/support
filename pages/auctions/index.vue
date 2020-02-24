@@ -40,6 +40,10 @@
   max-width: 1200px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 50px;
+  @media (max-width: 768px) {
+    grid-template-columns: 100%;
+    grid-gap: 10px;
+  }
 }
 .loading {
   text-align: center;

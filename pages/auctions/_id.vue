@@ -99,7 +99,7 @@ header.auction {
   .title {
     color: white;
     text-align: center;
-    text-shadow: 0px 3px 5px black;
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
     h1 {
       font-size: 1rem;
     }
