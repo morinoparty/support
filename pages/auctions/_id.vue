@@ -1,86 +1,84 @@
 <template>
   <div>
-    <div v-for="(item, index) in content" v-bind:key="index">
-      <header class="auction" id="header">
-        <div class="image" :style="'background-image: url(' + item.thumbnail + ')'"></div>
-        <div class="background"></div>
-        <div class="title">
-          <h1>オークション</h1>
-          <p>{{ item.title }}</p>
-        </div>
-      </header>
-      <div class="container auction">
-        <div class="body">
-          <img :src="item.thumbnail" class="thumb" />
-          <h1>{{ item.title }}</h1>
-          <p v-html="item.description"></p>
-          <small>※もりもとにチェストが集中してしまいますと、負荷等の観点から問題になりますので、倉庫などへの利用はお控えいただきますと幸いです。</small>
+    <header class="auction" id="header">
+      <div class="image" :style="'background-image: url(' + item.thumbnail + ')'"></div>
+      <div class="background"></div>
+      <div class="title">
+        <h1>オークション</h1>
+        <p>{{ item.title }}</p>
+      </div>
+    </header>
+    <div class="container auction">
+      <div class="body">
+        <img :src="item.thumbnail" class="thumb" />
+        <h1>{{ item.title }}</h1>
+        <p v-html="item.description"></p>
+        <small>※もりもとにチェストが集中してしまいますと、負荷等の観点から問題になりますので、倉庫などへの利用はお控えいただきますと幸いです。</small>
 
-          <figure class="alert">
-            <h2>座標</h2>
-            <div class="position">
-              <span>X:</span>
-              {{item.position_x}}
-            </div>
-            <div class="position">
-              <span>Y:</span>
-              {{item.position_y}}
-            </div>
-            <div class="position">
-              <span>Z:</span>
-              {{item.position_z}}
-            </div>
-          </figure>
-          <figure class="alert">
-            <h2>入札するには？？</h2>
-            <code>/auction bid {{ item.id }} 金額</code>このコマンドをもりのパーティの中で行ってみましょう!
-            <br />
-            <small>※入札するには、入札する金額を持っていることが必要です</small>
-          </figure>
-        </div>
-        <aside>
-          <ul>
+        <figure class="alert">
+          <h2>座標</h2>
+          <div class="position">
+            <span>X:</span>
+            {{item.position_x}}
+          </div>
+          <div class="position">
+            <span>Y:</span>
+            {{item.position_y}}
+          </div>
+          <div class="position">
+            <span>Z:</span>
+            {{item.position_z}}
+          </div>
+        </figure>
+        <figure class="alert">
+          <h2>入札するには？？</h2>
+          <code>/auction bid {{ item.id }} 金額</code>このコマンドをもりのパーティの中で行ってみましょう!
+          <br />
+          <small>※入札するには、入札する金額を持っていることが必要です</small>
+        </figure>
+      </div>
+      <aside>
+        <ul>
+          <li>
+            <h3>現在の入札数</h3>
+            <p v-for="(item, index) in count" v-bind:key="index">{{ item.count }}件</p>
+          </li>
+          <div v-for="(item, index) in highest" v-bind:key="index">
             <li>
-              <h3>現在の入札数</h3>
-              <p v-for="(item, index) in count" v-bind:key="index">{{ item.count }}件</p>
+              <h3>現在の金額</h3>
+              <p>{{ item.amount }}円</p>
             </li>
-            <div v-for="(item, index) in highest" v-bind:key="index">
-              <li>
-                <h3>現在の金額</h3>
-                <p>{{ item.amount }}円</p>
-              </li>
-              <li>
-                <h3>最新入札時間</h3>
-                <p>{{ time_now_bid }}</p>
-              </li>
-              <li>
-                <h3>現在の最高入札者</h3>
-                <div class="flex">
-                  <img
-                    class="head"
-                    :src="
+            <li>
+              <h3>最新入札時間</h3>
+              <p>{{ time_now_bid }}</p>
+            </li>
+            <li>
+              <h3>現在の最高入札者</h3>
+              <div class="flex">
+                <img
+                  class="head"
+                  :src="
                       'https://crafatar.com/renders/head/' +
                         item.mc_uuid +
                         '?size=64&overlay'
                     "
-                  />
-                  <p>{{ item.mc_id }}</p>
-                </div>
-              </li>
-            </div>
+                />
+                <p>{{ item.mc_id }}</p>
+              </div>
+            </li>
+          </div>
 
-            <li>
-              <h3>開始価格</h3>
-              <p>{{ item.now }}円</p>
-            </li>
-            <li>
-              <h3>期間</h3>
-              <p>開始：{{ time_start_computed }}</p>
-              <p>終了：{{ time_limit_computed }}</p>
-            </li>
-          </ul>
-        </aside>
-      </div>
+          <li>
+            <h3>開始価格</h3>
+            <p>{{ item.now }}円</p>
+          </li>
+          <li>
+            <h3>期間</h3>
+            <p>開始：{{ time_start_computed }}</p>
+            <p>終了：{{ time_limit_computed }}</p>
+          </li>
+        </ul>
+      </aside>
     </div>
   </div>
 </template>
@@ -235,7 +233,7 @@ export default {
 
   data() {
     return {
-      content: {},
+      item: {},
       count: {},
       highest: {},
       time_start_computed: "",
@@ -299,7 +297,7 @@ export default {
             this.$nuxt.$route.params.id
         )
         .then(res => {
-          this.content = res.data;
+          this.item = res.data;
           this.title = res.data[0].title;
           this.description = res.data[0].description;
           this.thumbnail = res.data[0].thumbnail;
