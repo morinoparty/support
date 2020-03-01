@@ -303,10 +303,10 @@ export default {
           this.thumbnail = res.data[0].thumbnail;
           this.loading = false;
 
-          this.time_start_computed = dayjs(res.data[0].time_start).format(
+          this.time_start_computed = dayjs(res.data.time_start).format(
             "M月D日 HH:mmから"
           );
-          this.time_limit_computed = dayjs(res.data[0].time_limit).format(
+          this.time_limit_computed = dayjs(res.data.time_limit).format(
             "M月D日 HH:mmまで"
           );
           console.log(res.data);
@@ -337,7 +337,7 @@ export default {
         )
         .then(res => {
           this.highest = res.data;
-          this.time_now_bid = dayjs(res.data[0].created_time).format(
+          this.time_now_bid = dayjs(res.data.created_time).format(
             "M月D日 HH:mm"
           );
           console.log(res.data);
