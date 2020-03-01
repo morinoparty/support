@@ -298,9 +298,9 @@ export default {
         )
         .then(res => {
           this.item = res.data;
-          this.title = res.data[0].title;
-          this.description = res.data[0].description;
-          this.thumbnail = res.data[0].thumbnail;
+          this.title = res.data.title;
+          this.description = res.data.description;
+          this.thumbnail = res.data.thumbnail;
           this.loading = false;
 
           this.time_start_computed = dayjs(res.data.time_start).format(
